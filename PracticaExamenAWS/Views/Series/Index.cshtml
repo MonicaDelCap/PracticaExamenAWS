@@ -1,0 +1,54 @@
+﻿@model IEnumerable<PracticaExamenAWS.Models.Serie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" asp-controller="Series">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdSerie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Anio)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdSerie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imagen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Anio)
+            </td>
+            <td>
+                    <a asp-action="Details" asp-controller="Series" asp-route-id="@item.IdSerie" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-controller="Series" asp-route-id="@item.IdSerie" class="btn btn-danger">Delete</a>
+                    <a asp-action="Update" asp-controller="Series" asp-route-id="@item.IdSerie" class="btn btn-warning">Update</a>
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
