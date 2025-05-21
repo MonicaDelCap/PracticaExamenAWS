@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PracticaExamenAWS.Models;
 using PracticaExamenAWS.Repositories;
+using PracticaExamenAWS.Services;
 
 namespace PracticaExamenAWS.Controllers
 {
     public class SeriesController : Controller
     {
         private RepositorySeries repository;
-
-        public SeriesController(RepositorySeries repo)
+        private ServiceBucketS3 service;
+        public SeriesController(RepositorySeries repo, ServiceBucketS3 ser)
         {
             this.repository = repo;
+            this.service = ser;
         }
 
         public async Task<IActionResult> Index()
@@ -29,8 +31,13 @@ namespace PracticaExamenAWS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Serie serie)
+        public async Task<IActionResult> Create(Serie serie, IFormFile file)
         {
+            using (Stream stream = file.OpenReadStream())
+            {
+                await this.service.UploadFileAsync(file.FileName, stream);
+            }
+            serie.Imagen = file.FileName;
             await this.repository.CreateSerieAsync(serie);
             return RedirectToAction("Index");
         }

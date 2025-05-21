@@ -1,6 +1,8 @@
+using Amazon.S3;
 using Microsoft.EntityFrameworkCore;
 using PracticaExamenAWS.Data;
 using PracticaExamenAWS.Repositories;
+using PracticaExamenAWS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<RepositorySeries>();
-
+builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddTransient<ServiceBucketS3>();
 builder.Services.AddDbContext<SeriesContext>(x => x.UseMySQL(builder.Configuration.GetConnectionString("MySQLAWS")));
 var app = builder.Build();
 
